@@ -20,7 +20,7 @@ def onehot_encode(tokens, max_genres):
 def onehot_decode(onehot):
     return [idx for idx, val in enumerate(onehot) if val == 1]
 
-def load_and_resample_audio(file_path, target_sr=22050, max_duration=30):
+def load_and_resample_audio(file_path, target_sr=22050, max_duration=15):
     audio, sr = librosa.load(file_path, sr=None)
     if sr != target_sr:
         audio = librosa.resample(audio, orig_sr=sr, target_sr=target_sr)

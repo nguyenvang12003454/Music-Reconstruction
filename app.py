@@ -83,7 +83,7 @@ def gen_audio(model, audio_source, genres_list, fixed_length_seconds=3):
      
 def run():    
     model = load_models()
-    uploaded_audio = st.file_uploader("Tải lên 1 audio (chỉ xử lý 30s đầu tiên)", type=['wav', 'mp3'])
+    uploaded_audio = st.file_uploader("Tải lên 1 audio (chỉ xử lý 15s đầu tiên)", type=['wav', 'mp3'])
     
     select_audio = st.selectbox(
         "Hoặc chọn 1 audio mẫu dưới dây:",
