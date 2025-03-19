@@ -36,7 +36,7 @@ def gen_audio(model, audio_source, genres_list, fixed_length_seconds=3):
         n_segments = n_frames // segment_length_frame
         
         split_audio_text_placeholder = st.empty()
-        split_audio_text_placeholder.text("Đang chia nhỏ audio...")
+        split_audio_text_placeholder.text("Đang chia nhỏ audio... ✂")
         progress_bar_placeholder = st.empty()
         progress_bar = progress_bar_placeholder.progress(0)
         
@@ -55,19 +55,19 @@ def gen_audio(model, audio_source, genres_list, fixed_length_seconds=3):
         progress_bar_placeholder.empty()
         split_audio_text_placeholder.empty()
         
-        recon_audio_text_placeholder = st.empty()
-        recon_audio_text_placeholder.text("Đang dựng lại audio...")
-        progress_bar_placeholder = st.empty()
-        progress_bar = progress_bar_placeholder.progress(0)
-        
         audios_input = torch.cat([audio[0] for audio in audios], dim=0)
         
         genres_input = onehot_encode(tokenize(genres_list), len(uni_genres_list))
         genres_input = torch.tensor(genres_input, dtype=torch.long).unsqueeze(0).unsqueeze(0)
         genres_input = genres_input.repeat(audios_input.shape[0], 1, 1)
         
-        recons, _, _ = model(audios_input, genres_input)
+        with st.spinner('Mô hình đang nấu ăn... 🍳🍴'):
+            recons, _, _ = model(audios_input, genres_input)
         
+        recon_audio_text_placeholder = st.empty()
+        recon_audio_text_placeholder.text("Đang dựng lại audio video... 🎵")
+        progress_bar_placeholder = st.empty()
+        progress_bar = progress_bar_placeholder.progress(0)
         recon_audios = []
         for i in range(len(recons)):
             spec_denorm = denormalize_melspec(recons[i].detach().numpy().squeeze(), audios[i][1])
