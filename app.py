@@ -87,7 +87,7 @@ def run():
     
     select_audio = st.selectbox(
         "Hoặc chọn 1 audio mẫu dưới dây:",
-        options=[""] + [f for f in os.listdir(AUDIO_SAMPLES_DIR) if f.endswith(('.wav', '.mp3'))],
+        options=[""] + [f"{file} - được lấy từ GTZAN Dataset" for file in os.listdir(AUDIO_SAMPLES_DIR) if file.endswith(('.wav', '.mp3'))],
         index=0,
         format_func=lambda x: "Không chọn audio mẫu" if x == "" else x
     )
@@ -96,7 +96,7 @@ def run():
         if uploaded_audio is not None:
             st.audio(uploaded_audio, format='audio/wav')
         else:
-            uploaded_audio = os.path.join(AUDIO_SAMPLES_DIR, select_audio)
+            uploaded_audio = os.path.join(AUDIO_SAMPLES_DIR, select_audio.replace(" - được lấy từ GTZAN Dataset", ""))
             st.audio(uploaded_audio, format='audio/wav')
         
         genres_list = st.multiselect('Chọn thể loại', uni_genres_list)
@@ -123,8 +123,14 @@ st.markdown(
         color: #555;
     }
     </style>
+    
     <div class="footer">
-        2024 AI VIETNAM | Made by <a href="https://github.com/Koii2k3/Music-Reconstruction" target="_blank">Koii2k3</a>
+        <div>
+            <a href="https://ieeexplore.ieee.org/document/1021072">*GTZAN Dataset</a>
+        </div>
+        <div>
+            2024 AI VIETNAM | Made by <a href="https://github.com/Koii2k3/Music-Reconstruction" target="_blank">Koii2k3</a>
+        </div>
     </div>
     """,
     unsafe_allow_html=True
